@@ -103,23 +103,27 @@
 
   function render(r) {
     const l = r.lang || 'en';
-    const headline = r.headline || say(WORD[r.kind], l);
+    // Without Gemini there is no written headline, so fall back to the most
+    // specific thing known — and never repeat the badge back as a heading.
+    const badge = say(WORD[r.kind], l);
+    const fallback = r.kind === 'THREAT' ? r.label : r.kind === 'CIVIC' ? r.department : null;
+    const headline = r.headline || (fallback && fallback !== badge ? fallback : null);
     const why = r.why || r.tell || '';
     const advice = r.advice || '';
 
     out.innerHTML = `
       <section class="card verdict">
         <div class="verdict-top">
-          <span class="badge">${esc(say(WORD[r.kind], l))}</span>
+          <span class="badge">${esc(badge)}</span>
           ${r.kind === 'THREAT'
             ? `<span class="meter" role="meter" aria-valuenow="${r.score}" aria-valuemin="0" aria-valuemax="100"
                  aria-label="Risk ${r.score} out of 100"><i></i></span>
                <span class="muted">${r.score}/100</span>`
             : ''}
         </div>
-        <h2>${esc(headline)}</h2>
-        ${r.label && r.kind === 'THREAT' ? `<p class="muted">${esc(r.label)}${r.tactic ? ` · ${esc(r.tactic)}` : ''}</p>` : ''}
-        ${r.department ? `<p><span class="dept">${esc(r.department)}</span></p>` : ''}
+        ${headline ? `<h2 tabindex="-1">${esc(headline)}</h2>` : `<h2 tabindex="-1" class="sr-only">${esc(badge)}</h2>`}
+        ${r.kind === 'THREAT' && r.tactic ? `<p class="muted">${esc(r.tactic)}</p>` : ''}
+        ${r.department && r.kind === 'CIVIC' ? `<p><span class="dept">Send this to: ${esc(r.department)}</span></p>` : ''}
         ${why ? `<p class="why">${esc(why)}</p>` : ''}
         ${advice ? `<p class="advice">${esc(advice)}</p>` : ''}
         ${r.kind === 'THREAT' ? evidenceRow(r.evidence) : ''}
