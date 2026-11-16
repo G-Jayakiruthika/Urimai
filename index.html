@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-state="idle">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Urimai — know what is real, know what to write</title>
+<meta name="description" content="Paste anything official that reaches you. Urimai tells you whether it is a fraud or a civic matter, and writes the reply, the complaint or the grievance letter for you — in English, Tamil and Hindi.">
+<meta name="theme-color" content="#0b1626">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<meta property="og:title" content="Urimai — know what is real, know what to write">
+<meta property="og:description" content="Paste anything official that reaches you. Urimai says whether it is a fraud or a civic matter, and writes the complaint, the reply or the grievance letter for you — in English, Tamil and Hindi.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/app.css">
+</head>
+<body>
+<a class="skip" href="#start">Skip to the scanner</a>
+
+<header class="top">
+  <div class="wrap top-row">
+    <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Urimai</span>
+    <div class="top-tools">
+      <label class="sr-only" for="lang">Language</label>
+      <select id="lang" aria-label="Language for the answer">
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+      <button type="button" id="theme" class="icon-btn" aria-label="Switch to light mode">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero wrap" aria-labelledby="title">
+    <div class="crest">
+      <img src="./emblem.webp" alt="" width="1200" height="630" decoding="async" fetchpriority="high">
+    </div>
+    <canvas id="eyes" class="eyes" role="img" aria-label="Urimai's eyes, which change with the answer"></canvas>
+    <h1 id="title">Know what is real.<br>Know what to write.</h1>
+    <p class="lede">
+      Something official reaches you and you are stuck on two questions: <strong>is this real?</strong>
+      and <strong>what do I write back?</strong> Paste it below. Urimai answers both, and hands you the
+      finished letter.
+    </p>
+    <p class="two-way" aria-hidden="true">
+      <span class="way way-in">A fraud coming at you</span>
+      <span class="way-or">or</span>
+      <span class="way way-out">A problem an office must fix</span>
+    </p>
+  </section>
+
+  <section id="start" class="wrap" aria-labelledby="ask-title">
+    <h2 id="ask-title" class="sr-only">Check a message</h2>
+    <form id="ask" class="card ask" novalidate>
+      <label class="label" for="text">
+        Paste the message, or describe the problem in your own words
+      </label>
+      <textarea id="text" name="text" rows="5" maxlength="4000" required dir="auto"
+        placeholder="A message you received, or something broken in your area…"
+        aria-describedby="hint"></textarea>
+      <p id="hint" class="hint">
+        Nothing is stored. Phone numbers, Aadhaar, PAN and account numbers are removed on your device
+        before anything is sent.
+      </p>
+
+      <div class="row">
+        <div class="grow">
+          <label class="label" for="place">Where is it? <span class="muted">(only for a civic complaint)</span></label>
+          <input id="place" name="place" type="text" maxlength="120" dir="auto" placeholder="Street or ward, e.g. Gandhi Street, Ward 12">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" id="go">Check it</button>
+        <button class="btn btn-ghost" type="button" id="clear">Clear</button>
+      </div>
+
+      <div class="samples" role="group" aria-label="Try an example">
+        <span class="muted">Try:</span>
+        <button type="button" class="chip" data-s="kyc">A bank SMS</button>
+        <button type="button" class="chip" data-s="arrest">A police call</button>
+        <button type="button" class="chip" data-s="light">A broken street light</button>
+        <button type="button" class="chip" data-s="safe">A normal message</button>
+      </div>
+    </form>
+
+    <div id="out" class="out" aria-live="polite" aria-atomic="false"></div>
+  </section>
+
+  <section class="wrap how" aria-labelledby="how-title">
+    <h2 id="how-title">How it decides</h2>
+    <ol class="steps">
+      <li class="card">
+        <h3>It judges</h3>
+        <p>Pattern rules for the eight fraud families that take the most money in India, plus the civic
+        problems a local body is responsible for. This runs on the server with no AI key needed, so an
+        answer always arrives.</p>
+      </li>
+      <li class="card">
+        <h3>Gemini explains</h3>
+        <p>Gemini 2.5 Flash says <em>why</em>, in your language, pointing at the words that gave it away.
+        It may sharpen a verdict — it is never allowed to clear a fraud the rules caught.</p>
+      </li>
+      <li class="card">
+        <h3>It writes</h3>
+        <p>A refusal to send the caller, a cybercrime complaint with every identifier filled in, a warning
+        for your family — or a grievance letter addressed to the exact department that owns the problem.</p>
+      </li>
+    </ol>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Urimai · Cyber fraud helpline <strong>1930</strong> · <a href="https://cybercrime.gov.in" rel="noopener noreferrer" target="_blank">cybercrime.gov.in</a></p>
+  <p class="muted" id="engine-note"></p>
+</footer>
+
+<script src="./js/rules.js"></script>
+<script src="./js/letters.js"></script>
+<script src="./js/guardian.js"></script>
+<script src="./js/motion.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+/* ---------------------------------------------------------------------------
+   Urimai — design tokens.
+
+   The page carries the verdict in its own colour. Neutral while Urimai is
+   listening, red the moment something is a fraud, amber when it is a civic
+   matter for an office to fix, green when there is nothing wrong. Someone who
+   cannot read the words still sees the answer, and sees it change.
+
+   Every state is defined twice, for light and dark, because half of India reads
+   a phone outdoors in daylight and the other half in bed at night.
+--------------------------------------------------------------------------- */
+
+:root {
+  --r: 18px;
+  --maxw: 1080px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --shift: .8s var(--ease);
+  color-scheme: light dark;
+}
+
+/* ---- Neutral: deep sea blue, the resting state ---- */
+[data-state="idle"][data-theme="light"] {
+  --bg: #eef4fb; --bg2: #ffffff; --ink: #0f2039; --muted: #51688a; --edge: #cfddee;
+  --accent: #1b5fc1; --accent2: #38a6d9; --glow: #1b5fc133;
+}
+[data-state="idle"][data-theme="dark"] {
+  --bg: #0b1626; --bg2: #122238; --ink: #e8f1fb; --muted: #9ab2cd; --edge: #233a56;
+  --accent: #58b6f0; --accent2: #7fd4e8; --glow: #58b6f044;
+}
+
+/* ---- Threat: lionfish. Rust and burgundy, not a siren ---- */
+[data-state="threat"][data-theme="light"] {
+  --bg: #fdeeea; --bg2: #fffaf8; --ink: #3d1210; --muted: #8a4a42; --edge: #f2c9bf;
+  --accent: #c2341f; --accent2: #8c1d2e; --glow: #c2341f33;
+}
+[data-state="threat"][data-theme="dark"] {
+  --bg: #230d0c; --bg2: #351513; --ink: #ffe9e4; --muted: #d4a098; --edge: #5a2520;
+  --accent: #ff7a5c; --accent2: #ffab8f; --glow: #ff7a5c44;
+}
+
+/* ---- Civic: mandarin fish. Gold and orange — a matter, not an emergency ---- */
+[data-state="civic"][data-theme="light"] {
+  --bg: #fff6e7; --bg2: #fffdf8; --ink: #3a2609; --muted: #87673a; --edge: #f0dbb4;
+  --accent: #b7700b; --accent2: #d99b1f; --glow: #b7700b33;
+}
+[data-state="civic"][data-theme="dark"] {
+  --bg: #231806; --bg2: #35270d; --ink: #fff3dd; --muted: #d4b989; --edge: #5a4420;
+  --accent: #f0b23c; --accent2: #ffd37a; --glow: #f0b23c44;
+}
+
+/* ---- Safe: starfish. Seafoam ---- */
+[data-state="safe"][data-theme="light"] {
+  --bg: #e9f8f0; --bg2: #fbfffd; --ink: #0c2b1e; --muted: #4a7a65; --edge: #c2e5d5;
+  --accent: #0d7d4f; --accent2: #35b483; --glow: #0d7d4f33;
+}
+[data-state="safe"][data-theme="dark"] {
+  --bg: #072016; --bg2: #0e3124; --ink: #e2fbf0; --muted: #94c7b1; --edge: #1d4d3a;
+  --accent: #40d396; --accent2: #86e9c0; --glow: #40d39644;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; min-height: 100vh;
+  background: var(--bg); color: var(--ink);
+  font: 16px/1.6 system-ui, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Tamil", "Noto Sans Devanagari", sans-serif;
+  transition: background-color var(--shift), color var(--shift);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5rem; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 750; }
+p { margin: 0 0 .9rem; }
+a { color: var(--accent); }
+
+.wrap { width: min(var(--maxw), 100% - 2.4rem); margin-inline: auto; }
+.muted { color: var(--muted); }
+
+.card {
+  background: var(--bg2); border: 1px solid var(--edge); border-radius: var(--r);
+  padding: 1.2rem; box-shadow: 0 10px 34px var(--glow);
+  transition: background-color var(--shift), border-color var(--shift), box-shadow var(--shift);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 52px; padding: .8rem 1.5rem; border-radius: 999px;
+  font: 700 1.02rem/1 inherit; cursor: pointer; border: 2px solid transparent;
+  transition: transform .3s var(--ease), filter .25s, background-color var(--shift);
+}
+.btn-primary { background: var(--accent); color: var(--bg2); }
+.btn-ghost { background: transparent; border-color: var(--edge); color: var(--ink); }
+.btn:hover { transform: translate(var(--mx, 0), calc(var(--my, 0px) - 3px)); filter: brightness(1.07); }
+.btn:active { transform: scale(.97); }
+.btn:focus-visible, a:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid var(--accent); outline-offset: 3px;
+}
+
+textarea, input, select {
+  width: 100%; font: inherit; color: var(--ink); background: var(--bg2);
+  border: 2px solid var(--edge); border-radius: 14px; padding: .8rem 1rem;
+  transition: border-color .25s;
+}
+textarea:focus, input:focus { border-color: var(--accent); }
+
+/* ---- The cursor: a dot you lead with and a ring that follows a beat behind ---- */
+.cur-dot, .cur-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999; opacity: 0; transition: opacity .25s; }
+.cur-dot.on, .cur-ring.on { opacity: 1; }
+.cur-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+.cur-ring { width: 46px; height: 46px; border: 1.8px solid var(--accent); border-radius: 50%; opacity: 0; }
+.cur-ring.on { opacity: .7; }
+.cur-ring.hot { transform-origin: center; border-width: 2.6px; }
+html.cursor-on, html.cursor-on * { cursor: none !important; }
+html.cursor-on textarea, html.cursor-on input { cursor: text !important; }
+
+/* ---- Sections arrive as you reach them ---- */
+.reveal { opacity: 0; transform: translateY(28px); }
+.reveal.seen {
+  opacity: 1; transform: none;
+  transition: opacity .75s var(--ease) var(--d, 0ms), transform .75s var(--ease) var(--d, 0ms);
+}
+
+.skip {
+  position: absolute; left: 1rem; top: 0; z-index: 1000; padding: .6rem 1rem;
+  background: var(--accent); color: var(--bg2); border-radius: 0 0 10px 10px;
+  transform: translateY(-120%); transition: transform .2s;
+}
+.skip:focus { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .cur-dot, .cur-ring { display: none; }
+}
